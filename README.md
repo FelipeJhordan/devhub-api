@@ -38,3 +38,4 @@ $ npm run test:cov
 
 ## Links
 - https://github.com/JVBorges/devhub ( Repositório do aplicativo mobile)
+- https://github.com/FelipeJhordan/skills-and-extras/blob/main/design-patterns/typescript_GoF_praticas/src/structural/composite/anottations.md ( Explicação Composite  )
