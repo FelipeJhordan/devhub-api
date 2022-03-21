@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
