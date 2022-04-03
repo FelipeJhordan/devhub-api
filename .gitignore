@@ -38,3 +38,6 @@ lerna-debug.log*
 
 # ENVIRONMENTS 
 .env
+
+# ASDF version control
+.tool-versions
