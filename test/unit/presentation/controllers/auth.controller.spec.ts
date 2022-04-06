@@ -2,7 +2,7 @@
 import { AuthService } from '@/application/services/auth.service';
 import { AuthController } from '@/presentation/controllers/auth.controller';
 import { Test, TestingModule } from '@nestjs/testing';
-import { mockRegisterUserDto, mockRegisterUserResponseDto } from 'test/mocks/auth';
+import { mockLoginUserDto, mockRegisterUserDto, mockAuthUserResponseDto } from 'test/mocks/auth';
 
 describe('<AuthController>', () => {
   let authController: AuthController;
@@ -15,7 +15,8 @@ describe('<AuthController>', () => {
         {
           provide: AuthService,
           useFactory: () => ({
-            register: jest.fn((param) => mockRegisterUserResponseDto()),
+            register: jest.fn((param) => mockAuthUserResponseDto()),
+            login: jest.fn((param) => mockAuthUserResponseDto()),
           }),
         },
       ],
@@ -34,10 +35,10 @@ describe('<AuthController>', () => {
     });
 
     // Funny test
-    it('Should return void', async () => {
+    it('Should return the correct response', async () => {
       const response = authController.registerUser(mockRegisterUserDto());
 
-      await expect(response).resolves.toEqual(mockRegisterUserResponseDto());
+      await expect(response).resolves.toEqual(mockAuthUserResponseDto());
     });
 
     it('Should call AuthService.register with correct values', async () => {
@@ -46,6 +47,30 @@ describe('<AuthController>', () => {
       await authController.registerUser(mockRegisterUserDto());
 
       expect(registerSpy).toBeCalledWith(mockRegisterUserDto());
+    });
+  });
+
+  describe('Login', () => {
+    it('Should be called with correct params', async () => {
+      const loginSpy = jest.spyOn(authController, 'loginUser');
+
+      await authController.loginUser(mockLoginUserDto());
+
+      expect(loginSpy).toBeCalledWith(mockLoginUserDto());
+    });
+
+    it('Should return the correct response', async () => {
+      const response = authController.loginUser(mockLoginUserDto());
+
+      await expect(response).resolves.toEqual(mockAuthUserResponseDto());
+    });
+
+    it('Should call AuthService.login with correct values', async () => {
+      const loginSpy = jest.spyOn(authService, 'login');
+
+      await authController.loginUser(mockLoginUserDto());
+
+      expect(loginSpy).toBeCalledWith(mockLoginUserDto());
     });
   });
 });
