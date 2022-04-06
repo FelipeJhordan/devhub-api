@@ -1,6 +1,6 @@
 import { ProfileDto } from '../profile/profile.dto';
 
-export class RegisterUserResponseDto {
+export class AuthUserResponseDto {
   id: string;
   email: string;
   token: string;
