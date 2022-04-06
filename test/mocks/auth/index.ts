@@ -1,10 +1,11 @@
 import { FavoriteLanguageEnum } from '@/domain/enum/FavoriteLanguage.enum';
-import { registerUserDto } from '@/presentation/dtos/auth/registerUser.dto';
-import { RegisterUserResponseDto } from '@/presentation/dtos/auth/registerUserResponse.dto';
+import { LoginUserDto } from '@/presentation/dtos/auth/loginUser.dto';
+import { RegisterUserDto } from '@/presentation/dtos/auth/registerUser.dto';
+import { AuthUserResponseDto } from '@/presentation/dtos/auth/AuthUserResponse.dto';
 import { mockProfile } from '../profile';
 import { mockDate, randomId } from '../shared';
 
-export const mockRegisterUserDto = (): registerUserDto => ({
+export const mockRegisterUserDto = (): RegisterUserDto => ({
   name: 'Dragoborn Silva',
   email: 'fushoda@uol.com',
   favoriteLanguages: [FavoriteLanguageEnum['C/C++'], FavoriteLanguageEnum.Python],
@@ -13,9 +14,14 @@ export const mockRegisterUserDto = (): registerUserDto => ({
   birthDate: mockDate(),
 });
 
-export const mockRegisterUserResponseDto = (): RegisterUserResponseDto => ({
+export const mockAuthUserResponseDto = (): AuthUserResponseDto => ({
   email: 'fushoda@uol.com',
   id: randomId(),
   profile: mockProfile(),
   token: 'ey.fkfofkeofkeofkocxofjmeorkeofkeofkalgumacoisa',
+});
+
+export const mockLoginUserDto = (): LoginUserDto => ({
+  username: 'user1235',
+  password: 'password654321',
 });
