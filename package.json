@@ -19,7 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./jest-e2e.ts",
-    "prisma:generate": "prisma generate --schema=./src/infra/prisma/schema.prisma"
+    "prisma:generate": "prisma generate --schema=./src/infra/prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate dev --schema=./src/infra/prisma/schema.prisma"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
