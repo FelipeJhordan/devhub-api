@@ -89,4 +89,16 @@ describe('<PostService>', () => {
       expect(result).toEqual(post);
     });
   });
+
+  describe('deletePosts', () => {
+    it('should be able to delete a single or multiple posts', async () => {
+      const posts_id = [1, 2, 3];
+
+      prisma.post.deleteMany = jest.fn().mockReturnValue(3);
+
+      const result = await service.deletePosts({ posts_id });
+
+      expect(result).toEqual(posts_id.length);
+    });
+  });
 });

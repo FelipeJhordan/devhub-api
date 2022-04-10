@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Post } from '@prisma/client';
+import { Post, Prisma } from '@prisma/client';
 import { PrismaService } from './prisma.service';
 
 interface CreatePost {
@@ -19,6 +19,10 @@ interface UpdatePost {
 
 interface FetchPost {
   post_id: number;
+}
+
+interface DeletePost {
+  posts_id: number[];
 }
 
 @Injectable()
@@ -51,5 +55,9 @@ export class PostService {
 
   getPost({ post_id }: FetchPost): Promise<Post> {
     return this.prismaService.post.findUnique({ where: { id: post_id } });
+  }
+
+  deletePosts({ posts_id }: DeletePost): Promise<Prisma.BatchPayload> {
+    return this.prismaService.post.deleteMany({ where: { id: { in: posts_id } } });
   }
 }
