@@ -72,4 +72,21 @@ describe('<PostService>', () => {
       expect(result).toEqual(post);
     });
   });
+
+  describe('getPost', () => {
+    it('should be able to fetch a single post', async () => {
+      const post = {
+        id: 1,
+        content: 'First post from user 1',
+        created_at: new Date(),
+        user_id: 1,
+      };
+
+      prisma.post.findUnique = jest.fn().mockReturnValue(post);
+
+      const result = await service.getPost({ post_id: 1 });
+
+      expect(result).toEqual(post);
+    });
+  });
 });

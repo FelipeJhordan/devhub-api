@@ -17,6 +17,10 @@ interface UpdatePost {
   updated_content: string;
 }
 
+interface FetchPost {
+  post_id: number;
+}
+
 @Injectable()
 export class PostService {
   constructor(private prismaService: PrismaService) {}
@@ -43,5 +47,9 @@ export class PostService {
       data: { content: updated_content },
       where: { id: post_id },
     });
+  }
+
+  getPost({ post_id }: FetchPost): Promise<Post> {
+    return this.prismaService.post.findUnique({ where: { id: post_id } });
   }
 }
