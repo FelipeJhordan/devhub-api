@@ -12,6 +12,11 @@ interface FetchUserPosts {
   user_id: number;
 }
 
+interface UpdatePost {
+  post_id: number;
+  updated_content: string;
+}
+
 @Injectable()
 export class PostService {
   constructor(private prismaService: PrismaService) {}
@@ -30,6 +35,13 @@ export class PostService {
       },
       where: { user_id },
       orderBy: { created_at: 'desc' },
+    });
+  }
+
+  updatePost({ post_id, updated_content }: UpdatePost): Promise<Post> {
+    return this.prismaService.post.update({
+      data: { content: updated_content },
+      where: { id: post_id },
     });
   }
 }

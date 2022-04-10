@@ -55,4 +55,21 @@ describe('<PostService>', () => {
       expect(result).toEqual(posts);
     });
   });
+
+  describe('updatePost', () => {
+    it('should be able to update a post', async () => {
+      const post = {
+        id: 1,
+        content: 'updated post',
+        created_at: new Date(),
+        user_id: 1,
+      };
+
+      prisma.post.update = jest.fn().mockReturnValue(post);
+
+      const result = await service.updatePost({ post_id: 1, updated_content: 'updated post' });
+
+      expect(result).toEqual(post);
+    });
+  });
 });
