@@ -13,6 +13,7 @@ describe('<PostService>', () => {
 
     service = module.get<PostService>(PostService);
     prisma = module.get<PrismaService>(PrismaService);
+    jest.clearAllMocks();
   });
 
   describe('createPost', () => {
@@ -33,6 +34,25 @@ describe('<PostService>', () => {
       });
 
       expect(result).toEqual(post);
+    });
+  });
+
+  describe('getUserPosts', () => {
+    it('should be able to list all posts from certain user', async () => {
+      const posts = [
+        {
+          id: 1,
+          content: 'First post from user 1',
+          created_at: new Date(),
+          user_id: 1,
+        },
+      ];
+
+      prisma.post.findMany = jest.fn().mockReturnValue(posts);
+
+      const result = await service.getUserPosts({ user_id: 1 });
+
+      expect(result).toEqual(posts);
     });
   });
 });
