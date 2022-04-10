@@ -4,7 +4,6 @@ import { PrismaService } from './prisma.service';
 
 interface CreatePost {
   content: string;
-  created_at: string;
   user_id: number;
 }
 
