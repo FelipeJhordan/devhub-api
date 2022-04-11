@@ -11,5 +11,16 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
+  Post Post[]
+}
+
+model Post {
+  id         Int      @id @default(autoincrement())
+  content    String
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    Int
+
+  @@map("posts")
 }

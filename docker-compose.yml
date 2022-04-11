@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=devhub
+    volumes:
+      - pgdata:/data/postgres_db
+volumes:
+  pgdata:
+    driver: local

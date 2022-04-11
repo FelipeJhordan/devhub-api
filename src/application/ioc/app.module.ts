@@ -5,9 +5,10 @@ import { HealthModule } from './health.module';
 import { PrismaModule } from './prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth.module';
+import { PostModule } from './post.module';
 
 @Module({
-  imports: [HealthModule, PrismaModule, AuthModule, ConfigModule.forRoot()],
+  imports: [HealthModule, PrismaModule, AuthModule, PostModule, ConfigModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })
