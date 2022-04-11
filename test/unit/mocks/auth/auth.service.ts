@@ -1,4 +1,4 @@
-import { AuthUserResponseDtoStub } from 'test/stubs/auth';
+import { AuthUserResponseDtoStub } from 'test/unit/stubs/auth';
 
 export const AuthServiceMock = {
   register: jest.fn().mockResolvedValue(AuthUserResponseDtoStub()),
