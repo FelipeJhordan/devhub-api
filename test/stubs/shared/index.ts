@@ -2,9 +2,9 @@
 
 import { randomUUID } from 'crypto';
 
-const date = new Date('04/28/2000');
-const uuid = randomUUID();
+const dateDummy = new Date('04/28/2000');
+const uuidDummy = randomUUID();
 
-export const mockDate = () => date;
+export const DateStub = () => dateDummy;
 
-export const randomId = () => uuid;
+export const randomIdStub = () => uuidDummy;

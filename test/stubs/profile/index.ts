@@ -1,8 +1,8 @@
 import { ProfileDto } from '@/presentation/dtos/profile/profile.dto';
-import { mockDate } from '../shared';
+import { DateStub } from '../shared';
 
-export const mockProfile = (): ProfileDto => ({
+export const profileStub = (): ProfileDto => ({
   name: 'Felpeira',
   language: ['SQL'],
-  birth: mockDate(),
+  birth: DateStub(),
 });
