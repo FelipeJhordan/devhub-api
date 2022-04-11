@@ -21,7 +21,7 @@ async function bootstrap() {
 
     const configService = app.get(ConfigService);
 
-    const port = configService.get('API_PORT');
+    const port = configService.get('PORT');
 
     new MiddlewaresComposite().apply(app.use);
 
