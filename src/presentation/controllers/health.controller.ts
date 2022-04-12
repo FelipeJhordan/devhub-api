@@ -4,10 +4,7 @@ import { HealthCheck, HealthCheckService } from '@nestjs/terminus';
 
 @Controller('health')
 export class HealthController {
-  constructor(
-    private health: HealthCheckService,
-    private prisma: PrismaHealthIndicator,
-  ) {}
+  constructor(private health: HealthCheckService, private prisma: PrismaHealthIndicator) {}
 
   @Get()
   @HealthCheck()

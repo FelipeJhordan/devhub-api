@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 
 import chalk from 'chalk';
 import { ConfigService } from '@nestjs/config';
@@ -15,15 +15,18 @@ async function bootstrap() {
       cors: true,
     });
 
+    app.setGlobalPrefix('api/v1', {
+      exclude: [{ path: 'health', method: RequestMethod.GET }],
+    });
+
     app.useGlobalFilters(new HttpExceptionFilter());
     app.useGlobalPipes(new ValidationPipe());
     app.useGlobalInterceptors(new LoggingInterceptor());
 
-    const configService = app.get(ConfigService);
-
-    const port = configService.get('API_PORT');
-
     new MiddlewaresComposite().apply(app.use);
+
+    const configService = app.get(ConfigService);
+    const port = configService.get('PORT');
 
     await app.listen(port);
 
