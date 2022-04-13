@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AuthService } from '@/application/services/auth.service';
+import { SessionService } from '@/application/services/session.service';
 import { AuthController } from '@/presentation/controllers/auth.controller';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthServiceMock } from 'test/unit/mocks/auth/auth.service';
+import { AuthService as AuthServiceMock } from 'test/unit/mocks/auth/auth.service';
+import { SessionService as SessionServiceMock } from 'test/unit/mocks/session/session.service';
 import { AuthUserResponseDtoStub, LoginUserDtoStub, registerUserDtoStub } from 'test/unit/stubs/auth';
+import { jwtPayloadStub, messageDtoStub } from 'test/unit/stubs/shared';
 
 describe('<AuthController>', () => {
   let authController: AuthController;
@@ -16,6 +19,10 @@ describe('<AuthController>', () => {
         {
           provide: AuthService,
           useValue: AuthServiceMock,
+        },
+        {
+          provide: SessionService,
+          useValue: SessionServiceMock,
         },
       ],
     }).compile();
@@ -68,6 +75,21 @@ describe('<AuthController>', () => {
       await authController.loginUser(LoginUserDtoStub());
 
       expect(loginSpy).toBeCalledWith(LoginUserDtoStub());
+    });
+  });
+  describe('Logout', () => {
+    it('Should be called with correct params', async () => {
+      const loginSpy = jest.spyOn(authController, 'logout');
+
+      await authController.logout(jwtPayloadStub());
+
+      expect(loginSpy).toBeCalledWith(jwtPayloadStub());
+    });
+
+    it('Should return the correct response', async () => {
+      const response = authController.logout(jwtPayloadStub());
+
+      await expect(response).resolves.toEqual(messageDtoStub());
     });
   });
 });
