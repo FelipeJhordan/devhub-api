@@ -36,6 +36,11 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+
+## Prisma Commands
+- prisma db push (generate tables by schema)
+- prisma generate ( update prisma client api)
+
 ## Deploy
 - Deploy automático pela Heroku, na branch master.
 - Por enquanto sem pipeline de testes

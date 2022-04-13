@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 
 import chalk from 'chalk';
 import { ConfigService } from '@nestjs/config';
@@ -13,6 +13,10 @@ async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule, {
       cors: true,
+    });
+
+    app.setGlobalPrefix('api/v1', {
+      exclude: [{ path: 'health', method: RequestMethod.GET }],
     });
 
     app.useGlobalFilters(new HttpExceptionFilter());
