@@ -23,10 +23,11 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe());
     app.useGlobalInterceptors(new LoggingInterceptor());
 
-    new MiddlewaresComposite().apply(app.use);
-
     const configService = app.get(ConfigService);
+
     const port = configService.get('PORT');
+
+    new MiddlewaresComposite().apply(app.use);
 
     await app.listen(port);
 
