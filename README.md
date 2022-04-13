@@ -36,6 +36,10 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+
+## Prisma Commands
+- prisma db push (generate tables by schema)
+- prisma generate ( update prisma client api)
 ## Links
 - https://github.com/JVBorges/devhub ( Repositório do aplicativo mobile)
 - https://github.com/FelipeJhordan/skills-and-extras/blob/main/design-patterns/typescript_GoF_praticas/src/structural/composite/anottations.md ( Explicação Composite  )

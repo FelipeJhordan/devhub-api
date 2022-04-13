@@ -25,5 +25,5 @@ export class RegisterUserDto {
   favoriteLanguages: FavoriteLanguageEnum[];
 
   @IsDateString()
-  birthDate: Date;
+  birth: Date;
 }
