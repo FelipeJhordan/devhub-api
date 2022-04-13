@@ -16,6 +16,8 @@ model User {
   password String @db.VarChar(300)
   Post Post[]
   Session Session?
+  Profile Profile?
+  
 
   @@map("users")
 }
@@ -24,8 +26,10 @@ model Profile {
   id   Int    @id @default(autoincrement())
   name String
   birth DateTime
-  photo String
-  language Language[]
+  photo String?
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  language Language[] @relation("profile_languages")
 
   @@map("profiles")
 }
@@ -33,7 +37,7 @@ model Profile {
 model Language {
   id Int @id @default(autoincrement())
   name String
-  profile Profile[]
+  profile Profile[] @relation("profile_languages")
 
   @@map("languages")
 }
