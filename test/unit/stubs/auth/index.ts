@@ -1,7 +1,7 @@
 import { FavoriteLanguageEnum } from '@/domain/enum/FavoriteLanguage.enum';
-import { LoginUserDto } from '@/presentation/dtos/auth/LoginUser.dto';
-import { RegisterUserDto } from '@/presentation/dtos/auth/RegisterUser.dto';
-import { AuthUserResponseDto } from '@/presentation/dtos/auth/AuthUserResponse.dto';
+import { AuthUserResponseDto } from '@/presentation/dtos/auth/authUserResponse.dto';
+import { LoginUserDto } from '@/presentation/dtos/auth/loginUser.dto';
+import { RegisterUserDto } from '@/presentation/dtos/auth/registerUser.dto';
 import { DateStub, randomIdStub, tokenDummy } from '../shared';
 
 export const registerUserDtoStub = (): RegisterUserDto => ({
