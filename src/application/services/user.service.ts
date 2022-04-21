@@ -1,6 +1,6 @@
 import { getLanguageId } from '@/domain/enum/FavoriteLanguage.enum';
-import { CreateUserDto } from '@/presentation/dtos/user/CreateUser.dto';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { CreateUserDto } from '@/presentation/dtos/user/createUser.dto';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { PrismaService } from './prisma.service';
 

@@ -1,4 +1,4 @@
-import { CreateSessionDto } from '@/presentation/dtos/session/CreateSession.dto';
+import { CreateSessionDto } from '@/presentation/dtos/session/createSession.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 
