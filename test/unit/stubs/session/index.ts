@@ -1,4 +1,4 @@
-import { CreateSessionDto } from '@/presentation/dtos/session/CreateSession.dto';
+import { CreateSessionDto } from '@/presentation/dtos/session/createSession.dto';
 import { Session } from '@prisma/client';
 import { randomIdStub, tokenDummy } from '../shared';
 

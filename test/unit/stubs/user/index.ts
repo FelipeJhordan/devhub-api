@@ -1,5 +1,5 @@
 import { FavoriteLanguageEnum } from '@/domain/enum/FavoriteLanguage.enum';
-import { CreateUserDto } from '@/presentation/dtos/user/CreateUser.dto';
+import { CreateUserDto } from '@/presentation/dtos/user/createUser.dto';
 import { User } from '@prisma/client';
 import { DateStub, randomIdStub, tokenDummy } from '../shared';
 import { IFindUserWithRelations } from './protocol';
