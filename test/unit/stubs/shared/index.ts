@@ -14,6 +14,19 @@ export const messageDtoStub = (): MessageDto => ({
   status: 204,
 });
 
+export const imageStub = () => ({
+  buffer: Buffer.from([]),
+  filename: 'photo.jpg',
+  originalname: 'photo',
+  stream: null,
+  size: 720,
+  mimetype: 'jpg',
+  fieldname: 'photo',
+  path: 'stub/photo.jpg',
+  encoding: 'utf-8',
+  destination: 'somewhere',
+});
+
 export const tokenDummy = () => 'ey.fkfofkeofkeofkocxofjmeorkeofkeofkalgumacoisa';
 
 export const DateStub = () => dateDummy;
