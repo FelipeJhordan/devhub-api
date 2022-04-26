@@ -58,7 +58,11 @@ export class UserService {
     return user;
   }
 
-  public async updateUser(updateUser: IUpdateUser): Promise<void> {
-    console.log('test');
+  public async updateUser({ id, formData, file }: IUpdateUser): Promise<void> {
+    const user: User = await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 }
