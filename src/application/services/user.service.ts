@@ -1,12 +1,14 @@
 import { getLanguageId } from '@/domain/enum/FavoriteLanguage.enum';
+import { IUpdateUser } from '@/domain/user/interfaces/IUpdateUser';
 import { CreateUserDto } from '@/presentation/dtos/user/createUser.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
+import { FileService } from './file.service';
 import { PrismaService } from './prisma.service';
 
 @Injectable()
 export class UserService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService, private fileService: FileService) {}
 
   // Isso poderia ser separado em um language Service feito de maneira mais clean, mas tá bom
   async createUser({ birth, email, language, name, password }: CreateUserDto): Promise<User> {
@@ -54,5 +56,9 @@ export class UserService {
       },
     });
     return user;
+  }
+
+  public async updateUser(updateUser: IUpdateUser): Promise<void> {
+    console.log('test');
   }
 }
