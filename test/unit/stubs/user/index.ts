@@ -1,8 +1,9 @@
 import { FavoriteLanguageEnum } from '@/domain/enum/FavoriteLanguage.enum';
+import { IUpdateUser } from '@/domain/user/interfaces/IUpdateUser';
 import { CreateUserDto } from '@/presentation/dtos/user/createUser.dto';
 import { UpdateUserDto } from '@/presentation/dtos/user/updateUser.dto';
 import { User } from '@prisma/client';
-import { DateStub, randomIdStub, tokenDummy } from '../shared';
+import { DateStub, imageStub, randomIdStub, tokenDummy } from '../shared';
 import { IFindUserWithRelations } from './protocol';
 
 export const createUserDtoStub = (): CreateUserDto => ({
@@ -44,4 +45,10 @@ export const getUserWithRelations = (): IFindUserWithRelations => ({
 export const updateUserDtoStub = (): UpdateUserDto => ({
   ...createUserDtoStub(),
   passwordConfirmation: 'hashed_password',
+});
+
+export const updateUserService = (): IUpdateUser => ({
+  file: imageStub(),
+  formData: { ...updateUserDtoStub() },
+  id: randomIdStub(),
 });
