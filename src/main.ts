@@ -8,6 +8,7 @@ import { MiddlewaresComposite } from './application/middlewares/middlewares.comp
 import { AppModule } from '@/application/ioc/app.module';
 import { HttpExceptionFilter } from './infra/rest/http-exception.filter';
 import { LoggingInterceptor } from './infra/rest/logging.interceptor';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   try {
@@ -19,8 +20,12 @@ async function bootstrap() {
       exclude: [{ path: 'health', method: RequestMethod.GET }],
     });
 
+    const config = new DocumentBuilder().setTitle('DevHub').setVersion('1.0').build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api/docs', app, document);
+
     app.useGlobalFilters(new HttpExceptionFilter());
-    app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalPipes(new ValidationPipe({ transform: true }));
     app.useGlobalInterceptors(new LoggingInterceptor());
 
     const configService = app.get(ConfigService);
