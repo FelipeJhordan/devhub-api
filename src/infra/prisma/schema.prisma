@@ -11,54 +11,66 @@ datasource db {
 }
 
 model User {
-  id   Int    @id @default(autoincrement())
-  email String @unique
-  password String @db.VarChar(300)
-  Post Post[]
-  Session Session?
-  Profile Profile?
-  
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  password String    @db.VarChar(300)
+  Post     Post[]
+  Comment  Comment[]
+  Session  Session?
+  Profile  Profile?
+
 
   @@map("users")
 }
 
 model Profile {
-  id   Int    @id @default(autoincrement())
-  name String
-  birth DateTime
-  photo String?
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int
+  id       Int        @id @default(autoincrement())
+  name     String
+  birth    DateTime
+  photo    String?
+  user     User       @relation(fields: [user_id], references: [id])
+  user_id  Int        @unique
   language Language[] @relation("profile_languages")
 
   @@map("profiles")
 }
 
 model Language {
-  id Int @id @default(autoincrement())
-  name String
+  id      Int       @id @default(autoincrement())
+  name    String
   profile Profile[] @relation("profile_languages")
 
   @@map("languages")
 }
 
-
-
 model Session {
-  id Int @id @default(autoincrement())
-  token String @db.VarChar(400)
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int
+  id      Int    @id @default(autoincrement())
+  token   String @db.VarChar(400)
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id Int    @unique
 
   @@map("sessions")
 }
 
 model Post {
+  id         Int       @id @default(autoincrement())
+  content    String
+  created_at DateTime  @default(now())
+  user       User      @relation(fields: [user_id], references: [id])
+  user_id    Int
+  Comment    Comment[]
+
+  @@map("posts")
+}
+
+model Comment {
   id         Int      @id @default(autoincrement())
   content    String
   created_at DateTime @default(now())
   user       User     @relation(fields: [user_id], references: [id])
   user_id    Int
+  post       Post     @relation(fields: [post_id], references: [id])
+  post_id    Int
 
-  @@map("posts")
+  @@map("comments")
 }
