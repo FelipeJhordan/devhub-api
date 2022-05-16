@@ -16,6 +16,7 @@ model User {
   password String    @db.VarChar(300)
   Post     Post[]
   Comment  Comment[]
+  Like     Like[]
   Session  Session?
   Profile  Profile?
 
@@ -59,6 +60,7 @@ model Post {
   user       User      @relation(fields: [user_id], references: [id])
   user_id    Int
   Comment    Comment[]
+  Like       Like[]
 
   @@map("posts")
 }
@@ -71,6 +73,17 @@ model Comment {
   user_id    Int
   post       Post     @relation(fields: [post_id], references: [id])
   post_id    Int
+  Like       Like[]
 
   @@map("comments")
+}
+
+model Like {
+  id         Int      @id @default(autoincrement())
+  user       User?    @relation(fields: [user_id], references: [id])
+  user_id    Int?
+  post       Post?    @relation(fields: [post_id], references: [id])
+  post_id    Int?
+  comment    Comment? @relation(fields: [comment_id], references: [id])
+  comment_id Int?
 }
