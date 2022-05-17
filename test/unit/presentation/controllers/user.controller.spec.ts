@@ -7,7 +7,7 @@ import { updateUserDtoStub, updateUserService } from 'test/unit/stubs/user';
 
 const requestParamsStub = {
   updateUser: updateUserDtoStub(),
-  id: randomIdStub(),
+  jwtPayload: { userId: randomIdStub() },
   file: imageStub(),
 };
 
@@ -36,17 +36,17 @@ describe('<UserController>', () => {
   describe('Update user', () => {
     it('should be called with correct params user', async () => {
       const updateUserSpy = jest.spyOn(userController, 'updateUser');
-      const { id, file, updateUser } = requestParamsStub;
-      await userController.updateUser(id, updateUser, file);
-      expect(updateUserSpy).toBeCalledWith(id, updateUser, file);
+      const { jwtPayload, file, updateUser } = requestParamsStub;
+      await userController.updateUser(jwtPayload, updateUser, file);
+      expect(updateUserSpy).toBeCalledWith(jwtPayload, updateUser, file);
     });
 
     it('should call userService.updateUser with correct params', async () => {
       const updateUserServiceSpy = jest.spyOn(userService, 'updateUser');
 
-      const { id, file, updateUser } = requestParamsStub;
+      const { jwtPayload, file, updateUser } = requestParamsStub;
 
-      await userController.updateUser(id, updateUser, file);
+      await userController.updateUser(jwtPayload, updateUser, file);
 
       expect(updateUserServiceSpy).toBeCalledWith(updateUserService());
     });

@@ -2,6 +2,7 @@ import { FavoriteLanguageEnum } from '@/domain/enum/FavoriteLanguage.enum';
 import { AuthUserResponseDto } from '@/presentation/dtos/auth/authUserResponse.dto';
 import { LoginUserDto } from '@/presentation/dtos/auth/loginUser.dto';
 import { RegisterUserDto } from '@/presentation/dtos/auth/registerUser.dto';
+import { VerifyPasswordDto } from '@/presentation/dtos/auth/verifyPassword.dto';
 import { DateStub, randomIdStub, tokenDummy } from '../shared';
 
 export const registerUserDtoStub = (): RegisterUserDto => ({
@@ -18,7 +19,7 @@ export const loginUserDtoStub = (): LoginUserDto => ({
   password: 'senha12345',
 });
 
-export const AuthUserResponseDtoStub = (): AuthUserResponseDto => ({
+export const authUserResponseDtoStub = (): AuthUserResponseDto => ({
   email: 'fushoda@uol.com',
   id: randomIdStub(),
   profile: {
@@ -30,7 +31,6 @@ export const AuthUserResponseDtoStub = (): AuthUserResponseDto => ({
   token: tokenDummy(),
 });
 
-export const LoginUserDtoStub = (): LoginUserDto => ({
-  email: 'fushoda@uol.com',
-  password: 'password654321',
+export const verifyPasswordDtoStub = (): VerifyPasswordDto => ({
+  password: 'senha12345',
 });

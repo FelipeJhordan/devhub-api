@@ -1,16 +1,15 @@
-import { JwtService } from '@nestjs/jwt';
-import { Test, TestingModule } from '@nestjs/testing';
-
-import { AuthUserResponseDtoStub, loginUserDtoStub, registerUserDtoStub } from 'test/unit/stubs/auth';
 import { AuthService } from '@/application/services/auth.service';
 import { PrismaService } from '@/application/services/prisma.service';
 import { HashingAdapter } from '@/application/services/protocols/hashing.adapter';
-import { UserService } from '@/application/services/user.service';
-import { PrismaService as mockedPrisma } from '../../mocks/prisma/prisma.service';
-import { UserService as mockedUserService } from '../../mocks/user/user.service';
-import { SessionService as mockedSessionService } from '../../mocks/session/session.service';
 import { SessionService } from '@/application/services/session.service';
+import { UserService } from '@/application/services/user.service';
+import { JwtService } from '@nestjs/jwt';
+import { Test, TestingModule } from '@nestjs/testing';
+import { authUserResponseDtoStub, loginUserDtoStub, registerUserDtoStub } from 'test/unit/stubs/auth';
 import { JwtService as mockedJwtService } from '../../mocks/infra/jwt/jwt.service';
+import { PrismaService as mockedPrisma } from '../../mocks/prisma/prisma.service';
+import { SessionService as mockedSessionService } from '../../mocks/session/session.service';
+import { UserService as mockedUserService } from '../../mocks/user/user.service';
 
 describe('AuthService', () => {
   let sut: AuthService;
@@ -61,7 +60,7 @@ describe('AuthService', () => {
 
     it('Should return the correct data', async () => {
       const response = await sut.register(registerUserDtoStub());
-      expect(response).toEqual(AuthUserResponseDtoStub());
+      expect(response).toEqual(authUserResponseDtoStub());
     });
   });
   describe('login', () => {
@@ -75,7 +74,7 @@ describe('AuthService', () => {
 
     it('Should return the correct data', async () => {
       const response = await sut.login(loginUserDtoStub());
-      expect(response.id).toBe(AuthUserResponseDtoStub().id);
+      expect(response.id).toBe(authUserResponseDtoStub().id);
     });
   });
 });

@@ -1,5 +1,6 @@
 import { FileService } from '@/application/services/file.service';
 import { PrismaService } from '@/application/services/prisma.service';
+import { HashingAdapter } from '@/application/services/protocols/hashing.adapter';
 import { UserService } from '@/application/services/user.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { createUserDtoStub } from 'test/unit/stubs/user';
@@ -21,6 +22,13 @@ describe('<UserService>', () => {
         {
           provide: FileService,
           useValue: mockedFileService,
+        },
+        {
+          provide: HashingAdapter,
+          useFactory: () => ({
+            compare: jest.fn(() => Promise.resolve(true)),
+            hash: jest.fn(() => Promise.resolve('hashed_password')),
+          }),
         },
       ],
     }).compile();
@@ -56,16 +64,21 @@ describe('<UserService>', () => {
   });
   describe('getUserByEmail', () => {
     it('Should call prisma.findFirst', async () => {
-      const getUserUserSpy = jest.spyOn(prisma.user, 'findFirst');
+      const getUserSpy = jest.spyOn(prisma.user, 'findFirst');
 
       await sut.getUserByEmail('fake-email@gmail.com');
 
-      expect(getUserUserSpy).toBeCalled();
+      expect(getUserSpy).toBeCalled();
     });
   });
+
   describe('updateUser', () => {
-    it('Should be able a find a single user', async () => {
-      console.log('teste');
-    });
+    // Não consigo mockar o retorno do prisma.user.findUnique
+    //   it('Should be able a find a single user', async () => {
+    //     prisma.user.findUnique = jest.fn().mockResolvedValueOnce(userEntityStub());
+    //     const findUniqueSpy = jest.spyOn(prisma.user, 'findUnique');
+    //     await sut.updateUser(updateUserService());
+    //     expect(findUniqueSpy).toReturnWith(userEntityStub());
+    //   });
   });
 });
