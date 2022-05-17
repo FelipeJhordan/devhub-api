@@ -1,17 +1,16 @@
 import { AuthUserResponseDto } from '@/presentation/dtos/auth/authUserResponse.dto';
 import { LoginUserDto } from '@/presentation/dtos/auth/loginUser.dto';
 import { RegisterUserDto } from '@/presentation/dtos/auth/registerUser.dto';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from './prisma.service';
 import { HashingAdapter } from './protocols/hashing.adapter';
+import { IVerifyPasswordParams } from './protocols/IVerifyPasswordParams';
 import { SessionService } from './session.service';
 import { UserService } from './user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private prismaService: PrismaService,
     private hashing: HashingAdapter,
     private userService: UserService,
     private sessionService: SessionService,
@@ -62,5 +61,12 @@ export class AuthService {
         photo: user.Profile?.photo,
       },
     );
+  }
+
+  public async verifyPassword({ id, password }: IVerifyPasswordParams): Promise<void> {
+    const userPassword = await this.userService.getUserPassword(id);
+    if (!(await this.hashing.compare(password, userPassword))) {
+      throw new ForbiddenException('Invalid password.'); // Acredito que o 401 também se enquadra
+    }
   }
 }

@@ -10,12 +10,10 @@ export class UpdateUserDto {
   @IsEmail()
   email: string;
 
-  @IsNotEmpty()
   @IsString()
   password: string;
 
   @Validate(CustomMatchPasswords, ['password'])
-  @IsNotEmpty()
   @IsString()
   passwordConfirmation: string;
 }

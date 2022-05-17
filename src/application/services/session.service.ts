@@ -23,7 +23,6 @@ export class SessionService {
 
       return;
     }
-    console.log('entrei aqui');
     await this.prismaService.session.create({
       data: {
         token,

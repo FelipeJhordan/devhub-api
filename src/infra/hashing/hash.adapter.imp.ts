@@ -1,7 +1,8 @@
 import { HashingAdapter } from '@/application/services/protocols/hashing.adapter';
-import { InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
+@Injectable()
 export class HashAdapterImp implements HashingAdapter {
   private SALT = 10;
   async hash(password, options): Promise<string> {

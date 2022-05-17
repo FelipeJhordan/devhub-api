@@ -1,21 +1,24 @@
+import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
 import { UserService } from '@/application/services/user.service';
-import { Body, Controller, Param, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { UserDecorator } from '../decorators/user.decorator';
 import { UpdateUserDto } from '../dtos/user/updateUser.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Put(':id')
+  @Put()
   @UseInterceptors(FileInterceptor('file'))
+  @UseGuards(JwtAuthGuard)
   async updateUser(
-    @Param('id') id: number,
+    @UserDecorator() { userId },
     @Body() updateUser: UpdateUserDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
     return await this.userService.updateUser({
-      id,
+      id: userId,
       formData: updateUser,
       file,
     });
