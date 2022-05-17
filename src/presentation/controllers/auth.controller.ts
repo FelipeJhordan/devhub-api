@@ -2,11 +2,12 @@ import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
 import { AuthService } from '@/application/services/auth.service';
 import { SessionService } from '@/application/services/session.service';
 import { IJwtPayload } from '@/infra/jwt/protocol/jwt.payload.protocol';
-import { Body, Controller, Delete, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { UserDecorator } from '../decorators/user.decorator';
 import { AuthUserResponseDto } from '../dtos/auth/authUserResponse.dto';
 import { LoginUserDto } from '../dtos/auth/loginUser.dto';
 import { RegisterUserDto } from '../dtos/auth/registerUser.dto';
+import { VerifyPasswordDto } from '../dtos/auth/verifyPassword.dto';
 import { MessageDto } from '../dtos/shared/message.dto';
 
 @Controller('auth')
@@ -21,6 +22,19 @@ export class AuthController {
   @Post('login')
   public async loginUser(@Body() loginUserDto: LoginUserDto): Promise<AuthUserResponseDto> {
     return await this.authService.login(loginUserDto);
+  }
+
+  @Get('verify/password')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async verifyPassword(
+    @UserDecorator() { userId }: IJwtPayload,
+    @Body() verifyPasswordDto: VerifyPasswordDto,
+  ): Promise<void> {
+    await this.authService.verifyPassword({
+      id: userId,
+      password: verifyPasswordDto.password,
+    });
   }
 
   @Delete('logout')
