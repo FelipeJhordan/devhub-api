@@ -32,8 +32,9 @@
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/jwt": "^8.0.0",
-    "@nestjs/platform-express": "^7.6.18",
     "@nestjs/passport": "^8.2.1",
+    "@nestjs/platform-express": "^7.6.18",
+    "@nestjs/swagger": "^5.2.1",
     "@nestjs/terminus": "^8.0.4",
     "@prisma/client": "^3.10.0",
     "@types/bcrypt": "^5.0.0",
@@ -52,7 +53,8 @@
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "swagger-ui-express": "^4.4.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
@@ -87,7 +89,7 @@
   },
   "prisma": {
     "schema": "./src/infra/prisma/schema.prisma",
-    "seed": "node --loader ts-node/esm src\\infra\\prisma\\seed.ts"
+    "seed": "node --loader ts-node/esm src/infra/prisma/seed.ts"
   },
   "engines": {
     "node": "v14.17.2",

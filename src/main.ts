@@ -1,11 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import chalk from 'chalk';
-import { ConfigService } from '@nestjs/config';
+import { useContainer } from 'class-validator';
 
-import { MiddlewaresComposite } from './application/middlewares/middlewares.composite';
 import { AppModule } from '@/application/ioc/app.module';
+import { MiddlewaresComposite } from './application/middlewares/middlewares.composite';
 import { HttpExceptionFilter } from './infra/rest/http-exception.filter';
 import { LoggingInterceptor } from './infra/rest/logging.interceptor';
 
@@ -19,8 +21,13 @@ async function bootstrap() {
       exclude: [{ path: 'health', method: RequestMethod.GET }],
     });
 
+    const config = new DocumentBuilder().setTitle('DevHub').setVersion('1.0').build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api/docs', app, document);
+
+    useContainer(app.select(AppModule), { fallbackOnErrors: true });
     app.useGlobalFilters(new HttpExceptionFilter());
-    app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalPipes(new ValidationPipe({ transform: true }));
     app.useGlobalInterceptors(new LoggingInterceptor());
 
     const configService = app.get(ConfigService);

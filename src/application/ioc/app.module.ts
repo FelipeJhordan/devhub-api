@@ -3,6 +3,7 @@ import { AppController } from '@/presentation/controllers/app.controller';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth.module';
+import { CommentModule } from './comment.module';
 import { FileModule } from './file.module';
 import { HealthModule } from './health.module';
 import { PostModule } from './post.module';
@@ -20,6 +21,7 @@ import { UserModule } from './user.module';
     UserModule,
     SessionModule,
     FileModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
