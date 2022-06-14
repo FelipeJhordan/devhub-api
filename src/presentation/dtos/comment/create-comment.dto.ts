@@ -8,9 +8,5 @@ export class CreateCommentDTO {
 
   @ApiProperty()
   @IsNumber()
-  user_id: number;
-
-  @ApiProperty()
-  @IsNumber()
   post_id: number;
 }

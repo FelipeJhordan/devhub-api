@@ -80,10 +80,12 @@ model Comment {
 
 model Like {
   id         Int      @id @default(autoincrement())
-  user       User?    @relation(fields: [user_id], references: [id])
-  user_id    Int?
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    Int
   post       Post?    @relation(fields: [post_id], references: [id])
   post_id    Int?
   comment    Comment? @relation(fields: [comment_id], references: [id])
   comment_id Int?
+
+  @@map("likes")
 }

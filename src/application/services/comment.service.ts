@@ -1,17 +1,27 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Comment } from '@prisma/client';
+import { Comment, Like } from '@prisma/client';
 
 import { PrismaService } from './prisma.service';
 
 import { CommentParamDTO } from '@/presentation/dtos/comment/comment-param.dto';
-import { CreateCommentDTO } from '@/presentation/dtos/comment/create-comment.dto';
 import { UpdateCommentDTO } from '@/presentation/dtos/comment/update-comment.dto';
+
+interface LikeComment {
+  user_id: number;
+  comment_id: number;
+}
+
+interface CreateComment {
+  content: string;
+  post_id: number;
+  user_id: number;
+}
 
 @Injectable()
 export class CommentService {
   constructor(private prismaService: PrismaService) {}
 
-  async createComment(data: CreateCommentDTO): Promise<Comment> {
+  async createComment(data: CreateComment): Promise<Comment> {
     return this.prismaService.comment.create({ data });
   }
 
@@ -38,6 +48,15 @@ export class CommentService {
   async deleteComment({ id }: CommentParamDTO): Promise<Comment> {
     return this.prismaService.comment.delete({
       where: { id },
+    });
+  }
+
+  likeComment({ user_id, comment_id }: LikeComment): Promise<Like> {
+    return this.prismaService.like.create({
+      data: {
+        comment_id,
+        user_id,
+      },
     });
   }
 }
