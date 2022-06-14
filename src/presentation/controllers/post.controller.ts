@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
-import { Post as UserPost } from '@prisma/client';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Like, Post as UserPost } from '@prisma/client';
 
 import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
 import { PostService } from '@/application/services/post.service';
@@ -20,7 +20,7 @@ export class PostController {
   createPost(@Req() { user }, @Body() { content }: CreatePostDTO): Promise<UserPost> {
     return this.postService.createPost({
       content,
-      user_id: user,
+      user_id: user.userId,
     });
   }
 
@@ -37,5 +37,10 @@ export class PostController {
   @Delete('/:id')
   deletePosts(@Param() { id }: PostParamDTO) {
     return this.postService.deletePost({ post_id: id });
+  }
+
+  @Post(':id/like')
+  likePost(@Req() { user }, @Param() { id }: PostParamDTO): Promise<Like> {
+    return this.postService.likePost({ post_id: id, user_id: user.userId });
   }
 }

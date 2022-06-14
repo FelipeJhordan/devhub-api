@@ -24,6 +24,11 @@ interface DeletePost {
   post_id: number;
 }
 
+interface LikePost {
+  user_id: number;
+  post_id: number;
+}
+
 @Injectable()
 export class PostService {
   constructor(private prismaService: PrismaService) {}
@@ -58,5 +63,14 @@ export class PostService {
 
   deletePost({ post_id }: DeletePost): Promise<Post> {
     return this.prismaService.post.delete({ where: { id: post_id } });
+  }
+
+  likePost({ user_id, post_id }: LikePost): Promise<Like> {
+    return this.prismaService.like.create({
+      data: {
+        post_id,
+        user_id,
+      },
+    });
   }
 }
