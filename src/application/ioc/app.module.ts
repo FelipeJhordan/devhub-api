@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth.module';
 import { CommentModule } from './comment.module';
 import { FileModule } from './file.module';
+import { FollowModule } from './follow.module';
 import { HealthModule } from './health.module';
 import { PostModule } from './post.module';
 import { PrismaModule } from './prisma.module';
@@ -22,6 +23,7 @@ import { UserModule } from './user.module';
     SessionModule,
     FileModule,
     CommentModule,
+    FollowModule,
   ],
   controllers: [AppController],
   providers: [AppService],
