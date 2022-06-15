@@ -37,6 +37,33 @@ export class PostService {
     return this.prismaService.post.create({ data });
   }
 
+  listFeedPost(userId: string) {
+    return this.prismaService
+      .$queryRaw`SELECT pf.user_id, pf.name, pf.photo, p.id, p.content, p.created_at, count(l.id) as likes, count(c.id) as comments
+                 FROM users u
+                 LEFT JOIN follows f ON f.follower_id = u.id
+                 LEFT JOIN posts p ON p.user_id = f.following_id OR p.user_id = u.id
+                 LEFT JOIN profiles pf ON pf.user_id = p.user_id
+                 LEFT JOIN comments c ON p.id = c.post_id
+                 LEFT JOIN likes l ON p.id = l.post_id
+                 WHERE u.id = ${userId}
+                 GROUP BY pf.user_id, pf.name, pf.photo, p.id, p.content, p.created_at
+                 ORDER BY p.created_at DESC`;
+  }
+
+  listProfilePost(userId: string) {
+    return this.prismaService
+      .$queryRaw`SELECT pf.user_id, pf.name, pf.photo, p.id, p.content, p.created_at, count(l.id) as likes, count(c.id) as comments
+                 FROM users u
+                 LEFT JOIN posts p ON p.user_id = u.id
+                 LEFT JOIN profiles pf ON pf.user_id = p.user_id
+                 LEFT JOIN comments c ON p.id = c.post_id
+                 LEFT JOIN likes l ON p.id = l.post_id
+                 WHERE u.id = ${userId}
+                 GROUP BY pf.user_id, pf.name, pf.photo, p.id, p.content, p.created_at
+                 ORDER BY p.created_at DESC`;
+  }
+
   getUserPosts({ user_id }: FetchUserPosts): Promise<Post[]> {
     return this.prismaService.post.findMany({
       select: {

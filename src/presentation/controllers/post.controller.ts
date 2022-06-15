@@ -24,6 +24,16 @@ export class PostController {
     });
   }
 
+  @Get('/feed')
+  listFeedPosts(@Req() { user }) {
+    return this.postService.listFeedPost(user.userId);
+  }
+
+  @Get('/profile')
+  listProfilePost(@Req() { user }) {
+    return this.postService.listProfilePost(user.userId);
+  }
+
   @Get('/:id')
   getPost(@Param() { id }: PostParamDTO) {
     return this.postService.getPost({ post_id: id });
