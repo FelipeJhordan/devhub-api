@@ -3,6 +3,7 @@ import { AuthService } from '@/application/services/auth.service';
 import { SessionService } from '@/application/services/session.service';
 import { IJwtPayload } from '@/infra/jwt/protocol/jwt.payload.protocol';
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserDecorator } from '../decorators/user.decorator';
 import { AuthUserResponseDto } from '../dtos/auth/authUserResponse.dto';
 import { LoginUserDto } from '../dtos/auth/loginUser.dto';
@@ -11,6 +12,7 @@ import { VerifyPasswordDto } from '../dtos/auth/verifyPassword.dto';
 import { MessageDto } from '../dtos/shared/message.dto';
 
 @Controller('auth')
+@ApiTags('Auth')
 export class AuthController {
   constructor(private authService: AuthService, private sessionService: SessionService) {}
 
@@ -27,6 +29,7 @@ export class AuthController {
   @Get('verify/password')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiBearerAuth()
   public async verifyPassword(
     @UserDecorator() { userId }: IJwtPayload,
     @Body() verifyPasswordDto: VerifyPasswordDto,
@@ -40,6 +43,7 @@ export class AuthController {
   @Delete('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   public async logout(@UserDecorator() { userId }: IJwtPayload): Promise<MessageDto> {
     await this.sessionService.destroySession(userId);
 
