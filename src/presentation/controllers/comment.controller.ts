@@ -39,4 +39,9 @@ export class CommentController {
   likeComment(@Req() { user }, @Param() { id }: PostParamDTO): Promise<Like> {
     return this.commentService.likeComment({ comment_id: id, user_id: user.userId });
   }
+
+  @Delete(':id/like')
+  deslikeComment(@Req() { user }, @Param() { id }: PostParamDTO): Promise<void> {
+    return this.commentService.deslikeComment({ comment_id: id, user_id: user.userId });
+  }
 }
