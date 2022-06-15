@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { Like, Post as UserPost } from '@prisma/client';
 
 import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
 import { PostService } from '@/application/services/post.service';
 
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { PaginationDto } from '../dtos/pagination/pagination.dto';
 import { CreatePostDTO } from '../dtos/post/create-post.dto';
 import { PostParamDTO } from '../dtos/post/post-param.dto';
 import { UpdatePostDTO } from '../dtos/post/update-post.dto';
@@ -25,13 +26,13 @@ export class PostController {
   }
 
   @Get('/feed')
-  listFeedPosts(@Req() { user }) {
-    return this.postService.listFeedPost(user.userId);
+  listFeedPosts(@Req() { user }, @Query() listProfileQuerys: PaginationDto) {
+    return this.postService.listFeedPost(user.userId, listProfileQuerys);
   }
 
   @Get('/profile')
-  listProfilePost(@Req() { user }) {
-    return this.postService.listProfilePost(user.userId);
+  listProfilePost(@Req() { user }, @Query() listProfileQuerys: PaginationDto) {
+    return this.postService.listProfilePost(user.userId, listProfileQuerys);
   }
 
   @Get('/:id')
