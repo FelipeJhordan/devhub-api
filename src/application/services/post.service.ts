@@ -1,3 +1,4 @@
+import { PaginationDto } from '@/presentation/dtos/pagination/pagination.dto';
 import { Injectable } from '@nestjs/common';
 import { Like, Post } from '@prisma/client';
 import { PrismaService } from './prisma.service';
@@ -37,7 +38,7 @@ export class PostService {
     return this.prismaService.post.create({ data });
   }
 
-  listFeedPost(userId: string) {
+  listFeedPost(userId: string, { itemsPerPage, page }: PaginationDto) {
     return this.prismaService
       .$queryRaw`SELECT pf.user_id, pf.name, pf.photo, p.id, p.content, p.created_at, count(l.id) as likes, count(c.id) as comments
                  FROM users u
@@ -48,10 +49,11 @@ export class PostService {
                  LEFT JOIN likes l ON p.id = l.post_id
                  WHERE u.id = ${userId}
                  GROUP BY pf.user_id, pf.name, pf.photo, p.id, p.content, p.created_at
-                 ORDER BY p.created_at DESC`;
+                 ORDER BY p.created_at DESC
+                 LIMIT ${itemsPerPage} OFFSET ${(page - 1) * itemsPerPage}`;
   }
 
-  listProfilePost(userId: string) {
+  listProfilePost(userId: string, { itemsPerPage, page }: PaginationDto) {
     return this.prismaService
       .$queryRaw`SELECT pf.user_id, pf.name, pf.photo, p.id, p.content, p.created_at, count(l.id) as likes, count(c.id) as comments
                  FROM users u
@@ -61,7 +63,8 @@ export class PostService {
                  LEFT JOIN likes l ON p.id = l.post_id
                  WHERE u.id = ${userId}
                  GROUP BY pf.user_id, pf.name, pf.photo, p.id, p.content, p.created_at
-                 ORDER BY p.created_at DESC`;
+                 ORDER BY p.created_at DESC
+                 LIMIT ${itemsPerPage} OFFSET ${(page - 1) * itemsPerPage}`;
   }
 
   getUserPosts({ user_id }: FetchUserPosts): Promise<Post[]> {
