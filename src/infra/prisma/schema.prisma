@@ -11,15 +11,16 @@ datasource db {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  email    String    @unique
-  password String    @db.VarChar(300)
-  Post     Post[]
-  Comment  Comment[]
-  Like     Like[]
-  Session  Session?
-  Profile  Profile?
-
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String    @db.VarChar(300)
+  Post      Post[]
+  Comment   Comment[]
+  Like      Like[]
+  Session   Session?
+  Profile   Profile?
+  Following Follow[]  @relation("following")
+  Follower  Follow[]  @relation("follower")
 
   @@map("users")
 }
@@ -86,4 +87,16 @@ model Like {
   post_id    Int?
   comment    Comment? @relation(fields: [comment_id], references: [id])
   comment_id Int?
+
+  @@map("likes")
+}
+
+model Follow {
+  follower     User @relation("follower", fields: [follower_id], references: [id])
+  follower_id  Int
+  following    User @relation("following", fields: [following_id], references: [id])
+  following_id Int
+
+  @@id([follower_id, following_id])
+  @@map("follows")
 }
