@@ -27,7 +27,7 @@ export class UserService {
             name,
             language: {
               connect: language?.map((language) => ({
-                id: getLanguageId(language),
+                id: language,
               })),
             },
           },
