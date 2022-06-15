@@ -30,7 +30,7 @@ model Profile {
   name     String
   birth    DateTime
   photo    String?
-  user     User       @relation(fields: [user_id], references: [id])
+  user     User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id  Int        @unique
   language Language[] @relation("profile_languages")
 
@@ -72,7 +72,7 @@ model Comment {
   created_at DateTime @default(now())
   user       User     @relation(fields: [user_id], references: [id])
   user_id    Int
-  post       Post     @relation(fields: [post_id], references: [id])
+  post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade)
   post_id    Int
   Like       Like[]
 
@@ -85,16 +85,16 @@ model Like {
   user_id    Int
   post       Post?    @relation(fields: [post_id], references: [id])
   post_id    Int?
-  comment    Comment? @relation(fields: [comment_id], references: [id])
+  comment    Comment? @relation(fields: [comment_id], references: [id], onDelete: Cascade)
   comment_id Int?
 
   @@map("likes")
 }
 
 model Follow {
-  follower     User @relation("follower", fields: [follower_id], references: [id])
+  follower     User @relation("follower", fields: [follower_id], references: [id], onDelete: Cascade)
   follower_id  Int
-  following    User @relation("following", fields: [following_id], references: [id])
+  following    User @relation("following", fields: [following_id], references: [id], onDelete: Cascade)
   following_id Int
 
   @@id([follower_id, following_id])

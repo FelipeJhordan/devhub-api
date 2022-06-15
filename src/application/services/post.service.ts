@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Like, Post, Prisma } from '@prisma/client';
+import { Like, Post } from '@prisma/client';
 import { PrismaService } from './prisma.service';
 
 interface CreatePost {
@@ -95,6 +95,15 @@ export class PostService {
   likePost({ user_id, post_id }: LikePost): Promise<Like> {
     return this.prismaService.like.create({
       data: {
+        post_id,
+        user_id,
+      },
+    });
+  }
+
+  async unlikePost({ user_id, post_id }: LikePost): Promise<void> {
+    await this.prismaService.like.deleteMany({
+      where: {
         post_id,
         user_id,
       },

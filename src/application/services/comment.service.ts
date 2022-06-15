@@ -59,4 +59,13 @@ export class CommentService {
       },
     });
   }
+
+  async deslikeComment({ user_id, comment_id }: LikeComment): Promise<void> {
+    await this.prismaService.like.deleteMany({
+      where: {
+        user_id,
+        comment_id,
+      },
+    });
+  }
 }
