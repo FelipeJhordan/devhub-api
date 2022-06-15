@@ -1,6 +1,6 @@
-import { NestFactory } from '@nestjs/core';
 import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import chalk from 'chalk';
@@ -11,19 +11,21 @@ import { MiddlewaresComposite } from './application/middlewares/middlewares.comp
 import { HttpExceptionFilter } from './infra/rest/http-exception.filter';
 import { LoggingInterceptor } from './infra/rest/logging.interceptor';
 
+const apiVersion = `api/${process.env.API_VERSION || 'v1'}`;
+
 async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule, {
       cors: true,
     });
 
-    app.setGlobalPrefix('api/v1', {
+    app.setGlobalPrefix(apiVersion, {
       exclude: [{ path: 'health', method: RequestMethod.GET }],
     });
 
-    const config = new DocumentBuilder().setTitle('DevHub').addBearerAuth().setVersion('1.0').build();
+    const config = new DocumentBuilder().setTitle('DevHub').addBearerAuth().setVersion(apiVersion).build();
     const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api/docs', app, document);
+    SwaggerModule.setup(`${apiVersion}/docs`, app, document);
 
     useContainer(app.select(AppModule), { fallbackOnErrors: true });
     app.useGlobalFilters(new HttpExceptionFilter());
