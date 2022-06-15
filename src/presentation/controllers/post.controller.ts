@@ -53,4 +53,9 @@ export class PostController {
   likePost(@Req() { user }, @Param() { id }: PostParamDTO): Promise<Like> {
     return this.postService.likePost({ post_id: id, user_id: user.userId });
   }
+
+  @Delete(':id/unlike')
+  unlikePost(@Req() { user }, @Param() { id }: PostParamDTO): Promise<void> {
+    return this.postService.unlikePost({ post_id: id, user_id: user.userId });
+  }
 }
