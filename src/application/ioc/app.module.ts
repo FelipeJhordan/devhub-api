@@ -1,4 +1,5 @@
 import { AppService } from '@/application/services/app.service';
+import { envs } from '@/infra/env';
 import { AppController } from '@/presentation/controllers/app.controller';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -16,7 +17,7 @@ import { UserModule } from './user.module';
   imports: [
     HealthModule,
     PrismaModule,
-    ConfigModule.forRoot({ isGlobal: true, expandVariables: true }),
+    ConfigModule.forRoot({ isGlobal: true, expandVariables: true, envFilePath: envs }),
     AuthModule,
     PostModule,
     UserModule,
