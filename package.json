@@ -25,6 +25,7 @@
     "prisma:studio": "prisma studio",
     "prisma:seed": "prisma db seed",
     "prisma:db-init": "prisma db push && npm run timeout &&  prisma generate && npm run prisma:seed",
+    "prisma:dev": "dotenv -e .env.dev -- ",
     "timeout": "node -e 'setTimeout(()=>{},5000)'"
   },
   "dependencies": {
@@ -70,6 +71,7 @@
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "dotenv-cli": "^5.1.0",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
