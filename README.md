@@ -5,6 +5,23 @@
 ## Descrição
 Projeto de rede social para desenvolvedores
 
+## Bibliotecas / Frameworks
+- nestjs
+- swagger
+- jwt
+- passport
+- terminus
+- bcrypt
+- prisma
+- aws-sdk
+- chalk
+- bcrypt
+- class-transformer/class-validator
+- handlebars(hbs)
+- multer
+- awesomes middlewares ( compression/helmet/rate-limit)
+- jest/supertest
+
 ## Requisitos e Instalação
 - Ter no ambiente uma versão do NODE instalado na versão 16.13 para cima.
 - .env preenchido de acordo com o envexamples
