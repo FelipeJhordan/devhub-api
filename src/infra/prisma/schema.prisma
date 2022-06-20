@@ -22,6 +22,8 @@ model User {
   Following Follow[]  @relation("following")
   Follower  Follow[]  @relation("follower")
 
+  recovery_code String? @db.VarChar(10)
+
   @@map("users")
 }
 
