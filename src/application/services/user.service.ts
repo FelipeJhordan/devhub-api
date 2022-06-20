@@ -1,10 +1,11 @@
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { User } from '@prisma/client';
+
 import { getLanguageId } from '@/domain/enum/FavoriteLanguage.enum';
 import { IUpdateUser } from '@/domain/user/interfaces/IUpdateUser';
 import { CreateUserDto } from '@/presentation/dtos/user/createUser.dto';
 import { createFileName, replaceFileName } from '@/shared';
 import { generateRecoveryCode } from '@/shared/generate-recovery-code.utils';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { User } from '@prisma/client';
 import { FileService } from './file.service';
 import { PrismaService } from './prisma.service';
 import { HashingAdapter } from './protocols/hashing.adapter';
