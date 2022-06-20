@@ -2,12 +2,13 @@ import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
 import { AuthService } from '@/application/services/auth.service';
 import { SessionService } from '@/application/services/session.service';
 import { IJwtPayload } from '@/infra/jwt/protocol/jwt.payload.protocol';
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserDecorator } from '../decorators/user.decorator';
 import { AuthUserResponseDto } from '../dtos/auth/authUserResponse.dto';
 import { LoginUserDto } from '../dtos/auth/loginUser.dto';
 import { RegisterUserDto } from '../dtos/auth/registerUser.dto';
+import { SendRecoveryCodeDto } from '../dtos/auth/sendRecoveryCode.dto';
 import { VerifyPasswordDto } from '../dtos/auth/verifyPassword.dto';
 import { MessageDto } from '../dtos/shared/message.dto';
 
@@ -48,5 +49,11 @@ export class AuthController {
     await this.sessionService.destroySession(userId);
 
     return MessageDto.createMessage('Logout success', 204);
+  }
+
+  @Patch('password')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async setRecoveryCodeAndSend(@Body() { email }: SendRecoveryCodeDto) {
+    await this.authService.setRecoveryCodeAndSend(email);
   }
 }
