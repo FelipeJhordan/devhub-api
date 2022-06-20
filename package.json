@@ -13,7 +13,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
-    "postinstall": "npm run prisma:generate && npm run build",
+    "postinstall": "npm run build",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -91,7 +91,7 @@
     "webpack-node-externals": "^3.0.0"
   },
   "prisma": {
-    "schema": "./src/infra/prisma/schema.prisma",
+    "schema": "src/infra/prisma/schema.prisma",
     "seed": "node --loader ts-node/esm src/infra/prisma/seed.ts"
   }
 }

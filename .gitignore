@@ -42,3 +42,6 @@ lerna-debug.log*
 
 # ASDF version control
 .tool-versions
+
+# Cache 
+.npm-cache
