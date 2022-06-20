@@ -10,5 +10,3 @@ export const defEnvironment = () => ({
 });
 
 export const envs = defEnvironment()[NODE_ENV] || '.env';
-
-console.log(envs);
