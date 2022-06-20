@@ -3,6 +3,7 @@ import { LoginUserDto } from '@/presentation/dtos/auth/loginUser.dto';
 import { RegisterUserDto } from '@/presentation/dtos/auth/registerUser.dto';
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { EmailService } from './email.service';
 import { HashingAdapter } from './protocols/hashing.adapter';
 import { IVerifyPasswordParams } from './protocols/IVerifyPasswordParams';
 import { SessionService } from './session.service';
@@ -15,6 +16,7 @@ export class AuthService {
     private userService: UserService,
     private sessionService: SessionService,
     private jwtService: JwtService,
+    private emailService: EmailService,
   ) {}
   public async register({
     birth,
@@ -42,10 +44,14 @@ export class AuthService {
   public async login({ email, password }: LoginUserDto): Promise<AuthUserResponseDto> {
     const user = await this.userService.getUserByEmail(email);
 
+    if (!user?.password) {
+      await this.throwWrongCredencials();
+    }
+
     const isPassword = await this.hashing.compare(password, user?.password);
 
     if (!isPassword) {
-      throw new NotFoundException('Wrong credentials.');
+      await this.throwWrongCredencials();
     }
 
     const token = await this.jwtService.signAsync({ userId: user.id });
@@ -68,5 +74,24 @@ export class AuthService {
     if (!(await this.hashing.compare(password, userPassword))) {
       throw new ForbiddenException('Invalid password.'); // Acredito que o 401 também se enquadra
     }
+  }
+
+  public async setRecoveryCodeAndSend(email: string): Promise<void> {
+    const userByEmail = await this.userService.getUserByEmail(email);
+
+    if (!userByEmail) {
+      throw new NotFoundException('Email not registered.');
+    }
+
+    const code = await this.userService.setRecoveryCode(email);
+
+    await this.emailService.emailAdapter.send(email, {
+      code,
+      name: userByEmail.Profile.name,
+    });
+  }
+
+  private async throwWrongCredencials() {
+    throw new NotFoundException('Wrong credentials.');
   }
 }
