@@ -2,6 +2,7 @@ import { getLanguageId } from '@/domain/enum/FavoriteLanguage.enum';
 import { IUpdateUser } from '@/domain/user/interfaces/IUpdateUser';
 import { CreateUserDto } from '@/presentation/dtos/user/createUser.dto';
 import { createFileName, replaceFileName } from '@/shared';
+import { generateRecoveryCode } from '@/shared/generate-recovery-code.utils';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { FileService } from './file.service';
@@ -27,7 +28,7 @@ export class UserService {
             name,
             language: {
               connect: language?.map((language) => ({
-                id: language,
+                id: getLanguageId(language),
               })),
             },
           },
@@ -136,5 +137,19 @@ export class UserService {
       throw new NotFoundException('User not found.');
     }
     return user.password;
+  }
+
+  async setRecoveryCode(email: string): Promise<string> {
+    const code = generateRecoveryCode();
+    await this.prismaService.user.update({
+      where: {
+        email,
+      },
+      data: {
+        recovery_code: code,
+      },
+    });
+
+    return code;
   }
 }
