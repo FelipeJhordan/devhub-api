@@ -1,6 +1,7 @@
-import { CustomMatchPasswords } from '@/infra/class-validator/custom-match-passwords';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString, Validate } from 'class-validator';
+
+import { CustomMatchPasswords } from '@/infra/class-validator/custom-match-passwords';
 
 export class UpdateUserDto {
   @ApiProperty()

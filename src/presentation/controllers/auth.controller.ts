@@ -1,9 +1,10 @@
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
 import { AuthService } from '@/application/services/auth.service';
 import { SessionService } from '@/application/services/session.service';
 import { IJwtPayload } from '@/infra/jwt/protocol/jwt.payload.protocol';
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserDecorator } from '../decorators/user.decorator';
 import { AuthUserResponseDto } from '../dtos/auth/authUserResponse.dto';
 import { ChangePasswordByRecoveryCodeDto } from '../dtos/auth/changePasswordByRecoveryCode.dto';

@@ -1,8 +1,9 @@
-import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
-import { CommentService } from '@/application/services/comment.service';
 import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Like } from '@prisma/client';
+
+import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
+import { CommentService } from '@/application/services/comment.service';
 import { CommentParamDTO } from '../dtos/comment/comment-param.dto';
 import { CreateCommentDTO } from '../dtos/comment/create-comment.dto';
 import { UpdateCommentDTO } from '../dtos/comment/update-comment.dto';

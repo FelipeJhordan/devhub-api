@@ -1,8 +1,9 @@
-import { StorageAdapter } from '@/application/services/protocols/storage.adapter';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as AWS from 'aws-sdk';
 import { S3 } from 'aws-sdk';
+
+import { StorageAdapter } from '@/application/services/protocols/storage.adapter';
 
 @Injectable()
 export class S3AdapterImp implements StorageAdapter {

@@ -1,13 +1,13 @@
 import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import chalk from 'chalk';
 import { useContainer } from 'class-validator';
 
 import { AppModule } from '@/application/ioc/app.module';
-import { NestExpressApplication } from '@nestjs/platform-express';
 import { MiddlewaresComposite } from './application/middlewares/middlewares.composite';
 import { HttpExceptionFilter } from './infra/rest/http-exception.filter';
 import { LoggingInterceptor } from './infra/rest/logging.interceptor';

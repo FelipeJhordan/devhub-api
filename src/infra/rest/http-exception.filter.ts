@@ -1,4 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common';
+
 import { ExceptionResponse } from './protocols/IExceptionResponse';
 
 @Catch(HttpException)

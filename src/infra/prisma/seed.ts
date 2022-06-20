@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+
 import { languages } from './seeds/language.seed';
 const prisma = new PrismaClient();
 

@@ -1,7 +1,8 @@
 import { FavoriteLanguageEnum } from '@/domain/enum/FavoriteLanguage.enum';
-import { CustomMatchPasswords } from '@/infra/class-validator/custom-match-passwords';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsDateString, IsEmail, IsEnum, IsNotEmpty, IsString, Validate } from 'class-validator';
+
+import { CustomMatchPasswords } from '@/infra/class-validator/custom-match-passwords';
 
 export class RegisterUserDto {
   @ApiProperty()

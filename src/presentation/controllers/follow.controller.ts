@@ -1,7 +1,8 @@
-import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
-import { FollowService } from '@/application/services/follow.service';
 import { Controller, Delete, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
+import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
+import { FollowService } from '@/application/services/follow.service';
 import { FollowDTO } from '../dtos/follow/follow.dto';
 
 @Controller('follow')

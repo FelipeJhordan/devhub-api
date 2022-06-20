@@ -1,6 +1,7 @@
-import { HashingAdapter } from '@/application/services/protocols/hashing.adapter';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+
+import { HashingAdapter } from '@/application/services/protocols/hashing.adapter';
 
 @Injectable()
 export class HashAdapterImp implements HashingAdapter {

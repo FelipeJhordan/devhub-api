@@ -1,12 +1,12 @@
-import { MailAdapter } from '@/application/services/protocols/mail.adapter';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as AWS from 'aws-sdk';
 import { SES } from 'aws-sdk';
 import fs from 'fs/promises';
-
 import { handlebars } from 'hbs';
 import path from 'path';
+
+import { MailAdapter } from '@/application/services/protocols/mail.adapter';
 
 @Injectable()
 export class SesAdapterImp implements MailAdapter {

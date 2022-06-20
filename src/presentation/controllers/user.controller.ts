@@ -1,8 +1,9 @@
-import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
-import { UserService } from '@/application/services/user.service';
 import { Body, Controller, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
+import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
+import { UserService } from '@/application/services/user.service';
 import { UserDecorator } from '../decorators/user.decorator';
 import { UpdateUserDto } from '../dtos/user/updateUser.dto';
 

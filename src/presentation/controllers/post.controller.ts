@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Like, Post as UserPost } from '@prisma/client';
 
 import { JwtAuthGuard } from '@/application/guards/jwt.auth.guard';
 import { PostService } from '@/application/services/post.service';
 
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { PaginationDto } from '../dtos/pagination/pagination.dto';
 import { CreatePostDTO } from '../dtos/post/create-post.dto';
 import { PostParamDTO } from '../dtos/post/post-param.dto';
