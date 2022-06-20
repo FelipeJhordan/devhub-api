@@ -1,7 +1,8 @@
 import { AuthUserResponseDto } from '@/presentation/dtos/auth/authUserResponse.dto';
+import { ChangePasswordByRecoveryCodeDto } from '@/presentation/dtos/auth/changePasswordByRecoveryCode.dto';
 import { LoginUserDto } from '@/presentation/dtos/auth/loginUser.dto';
 import { RegisterUserDto } from '@/presentation/dtos/auth/registerUser.dto';
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { EmailService } from './email.service';
 import { HashingAdapter } from './protocols/hashing.adapter';
@@ -93,5 +94,24 @@ export class AuthService {
 
   private async throwWrongCredencials() {
     throw new NotFoundException('Wrong credentials.');
+  }
+
+  public async changePasswordByRecoveryCode(
+    { email, password }: ChangePasswordByRecoveryCodeDto,
+    code: string,
+  ): Promise<void> {
+    const userByEmail = await this.userService.getUserByEmail(email);
+
+    if (!userByEmail) {
+      throw new NotFoundException('Email not registered.');
+    }
+
+    if (!userByEmail.recovery_code && userByEmail.recovery_code.toUpperCase() != code.toUpperCase()) {
+      throw new BadRequestException('Invalid recovery code.');
+    }
+
+    const newPassword = await this.hashing.hash(password);
+
+    await this.userService.changePassword(userByEmail.id, newPassword);
   }
 }
