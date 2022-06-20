@@ -7,6 +7,7 @@ import chalk from 'chalk';
 import { useContainer } from 'class-validator';
 
 import { AppModule } from '@/application/ioc/app.module';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { MiddlewaresComposite } from './application/middlewares/middlewares.composite';
 import { HttpExceptionFilter } from './infra/rest/http-exception.filter';
 import { LoggingInterceptor } from './infra/rest/logging.interceptor';
@@ -15,13 +16,15 @@ const apiVersion = `api/${process.env.API_VERSION || 'v1'}`;
 
 async function bootstrap() {
   try {
-    const app = await NestFactory.create(AppModule, {
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
       cors: true,
     });
 
     app.setGlobalPrefix(apiVersion, {
       exclude: [{ path: 'health', method: RequestMethod.GET }],
     });
+
+    app.setViewEngine('hbs');
 
     const config = new DocumentBuilder().setTitle('DevHub').addBearerAuth().setVersion(apiVersion).build();
     const document = SwaggerModule.createDocument(app, config);
