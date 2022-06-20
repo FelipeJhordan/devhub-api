@@ -93,5 +93,9 @@
   "prisma": {
     "schema": "src/infra/prisma/schema.prisma",
     "seed": "node --loader ts-node/esm src/infra/prisma/seed.ts"
+  },
+  "engines": {
+    "node": "16.13.2",
+    "npm": "8.1.2"
   }
 }
