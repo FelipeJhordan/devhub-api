@@ -152,4 +152,16 @@ export class UserService {
 
     return code;
   }
+
+  async changePassword(id: number, password: string): Promise<void> {
+    await this.prismaService.user.update({
+      where: {
+        id,
+      },
+      data: {
+        password,
+        recovery_code: null,
+      },
+    });
+  }
 }
