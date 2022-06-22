@@ -1,5 +1,6 @@
 import { AppService } from '@/application/services/app.service';
 import { envs } from '@/infra/env';
+import { FilesToBodyInterceptor, FileToBodyInterceptor } from '@/infra/rest/file.interceptor';
 import { AppController } from '@/presentation/controllers/app.controller';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -29,6 +30,6 @@ import { UserModule } from './user.module';
     EmailModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, FilesToBodyInterceptor, FileToBodyInterceptor],
 })
 export class AppModule {}
