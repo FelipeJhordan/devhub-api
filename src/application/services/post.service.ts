@@ -39,8 +39,21 @@ export class PostService {
   }
 
   listFeedPost(userId: string, { itemsPerPage, page }: PaginationDto) {
-    return this.prismaService
-      .$queryRaw`SELECT pf.user_id, pf.name, pf.photo, p.id, p.content, p.created_at, count(l.id) as likes, count(c.id) as comments
+    return this.prismaService.$queryRaw`SELECT
+                 pf.user_id,
+                 pf.name,
+                 pf.photo,
+                 p.id,
+                 p.content,
+                 p.created_at,
+                 CASE WHEN EXISTS (
+                    SELECT id
+                    FROM likes l
+                    WHERE l.user_id = ${userId}
+                    AND l.post_id = p.id
+                 ) THEN TRUE ELSE False END AS liked,
+                 COUNT(l.id) AS likes,
+                 COUNT(c.id) AS comments
                  FROM users u
                  LEFT JOIN follows f ON f.follower_id = u.id
                  LEFT JOIN posts p ON p.user_id = f.following_id OR p.user_id = u.id
