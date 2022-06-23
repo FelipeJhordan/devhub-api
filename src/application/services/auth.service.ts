@@ -44,13 +44,11 @@ export class AuthService {
   }
   public async login({ email, password }: LoginUserDto): Promise<AuthUserResponseDto> {
     const user = await this.userService.getUserByEmail(email);
-
     if (!user?.password) {
       await this.throwWrongCredencials();
     }
 
     const isPassword = await this.hashing.compare(password, user?.password);
-
     if (!isPassword) {
       await this.throwWrongCredencials();
     }

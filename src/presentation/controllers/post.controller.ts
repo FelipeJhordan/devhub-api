@@ -7,6 +7,7 @@ import { PostService } from '@/application/services/post.service';
 
 import { PaginationDto } from '../dtos/pagination/pagination.dto';
 import { CreatePostDTO } from '../dtos/post/create-post.dto';
+import { GetPostsByUserQueryDto } from '../dtos/post/get-posts-by-user-query.dto';
 import { PostParamDTO } from '../dtos/post/post-param.dto';
 import { UpdatePostDTO } from '../dtos/post/update-post.dto';
 
@@ -31,8 +32,9 @@ export class PostController {
   }
 
   @Get('/profile')
-  listProfilePost(@Req() { user }, @Query() listProfileQuerys: PaginationDto) {
-    return this.postService.listProfilePost(user.userId, listProfileQuerys);
+  listProfilePost(@Req() { user }, @Query() getPostsByUserQueryDto: GetPostsByUserQueryDto) {
+    const getTargetProfile = !getPostsByUserQueryDto?.userId ? user.userId : getPostsByUserQueryDto.userId;
+    return this.postService.listProfilePost(getTargetProfile, getPostsByUserQueryDto);
   }
 
   @Get('/:id')
