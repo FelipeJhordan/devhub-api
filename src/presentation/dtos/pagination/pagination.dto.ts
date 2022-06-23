@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNumber, IsOptional } from 'class-validator';
 
 export class PaginationDto {
   itemsPerPage = 8;
@@ -16,7 +16,7 @@ export class PaginationDto {
   })
   @Type(() => Number)
   @Transform(({ value }) => (value < 1 ? 1 : value))
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
-  page: number;
+  page = 1;
 }

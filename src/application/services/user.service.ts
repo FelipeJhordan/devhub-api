@@ -73,7 +73,7 @@ export class UserService {
     return user;
   }
 
-  public async updateUser({ id, formData, file }: IUpdateUser): Promise<User> {
+  public async updateUser({ id, formData }: IUpdateUser): Promise<User> {
     let photo;
     const user = await this.prismaService.user.findUnique({
       where: {
@@ -90,8 +90,8 @@ export class UserService {
 
     const filename = !user.Profile.photo ? createFileName(user.id) : replaceFileName(user.Profile.photo);
 
-    if (!!file) {
-      photo = await this.fileService.addPhoto(filename, file);
+    if (!!formData.file) {
+      photo = await this.fileService.addPhoto(filename, formData.file);
     }
 
     const hashedPassword = await this.hashing.hash(formData.password);
