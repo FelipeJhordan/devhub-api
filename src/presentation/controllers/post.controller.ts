@@ -61,4 +61,9 @@ export class PostController {
   unlikePost(@Req() { user }, @Param() { id }: PostParamDTO): Promise<void> {
     return this.postService.unlikePost({ post_id: id, user_id: user.userId });
   }
+
+  @Get(':id/comment')
+  getAllCommentsByPost(@Req() { user }, @Param() { id }: PostParamDTO) {
+    return this.postService.getCommentsByPost(user.userId, id);
+  }
 }
