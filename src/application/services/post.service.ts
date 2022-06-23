@@ -80,6 +80,37 @@ export class PostService {
                  LIMIT ${itemsPerPage} OFFSET ${(page - 1) * itemsPerPage}`;
   }
 
+  getCommentsByPost(userId: number, postId: number) {
+    return this.prismaService
+      .$queryRaw`SELECT c.id as "comment_id", c."content", pf.user_id, pf."name", CASE WHEN EXISTS(
+          SELECT id
+          FROM likes l 
+          WHERE l.user_id = 3
+          and l.post_id  = p.id 
+        ) then true else false  end as liked,
+        count(l.id) as likes
+        FROM "comments" c 
+        left join posts p on
+          p.id  = c.post_id
+        left join users u on
+          u.id  = c.user_id 
+        left join profiles pf on 
+          pf.user_id  = u.id
+        left join likes l on c.id = l.comment_id 
+        WHERE 
+          c.post_id = ${postId}
+        group by 
+          c.id , 
+          c."content", 
+          pf.user_id,
+          pf."name",
+          p.id
+        order by 
+          c.created_at DESC;
+        `;
+  }
+  // *
+
   getUserPosts({ user_id }: FetchUserPosts): Promise<Post[]> {
     return this.prismaService.post.findMany({
       select: {
