@@ -165,4 +165,42 @@ export class UserService {
       },
     });
   }
+
+  async getUserProfile(userLogedId: number, userTargetId) {
+    if (userLogedId == userTargetId) {
+      console.log('dsakodsako');
+      return await this.prismaService.$queryRaw`
+      SELECT 
+        u.id,
+        u.email, 
+        p."name" , 
+        p.photo, 
+        count(f.following_id) as "followCount"
+      FROM users u
+      left join profiles p on p.user_id = u.id
+      left join follows f ON f.following_id = u.id
+      where u.id  = ${userLogedId}
+      group by u.id, p.id ;
+      `;
+    }
+    return await this.prismaService.$queryRaw`
+      SELECT 
+        u.id,
+        u.email, 
+        p."name" , 
+        p.photo, 
+      count(f.following_id) as "followCount", 
+      CASE WHEN EXISTS (
+                        SELECT fo.follower_id 
+                        FROM follows fo
+                        WHERE fo.follower_id = ${userLogedId}
+                        AND fo.following_id = u.id 
+                    ) THEN TRUE ELSE False END AS following
+    FROM users u
+    left join profiles p on p.user_id = u.id
+    left join follows f ON f.following_id = u.id
+    where u.id  = ${userTargetId}
+    group by u.id, p.id ;
+    `;
+  }
 }

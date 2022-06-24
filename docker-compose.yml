@@ -1,5 +1,16 @@
-version: "3.7"
+version: '3.7'
 services:
+  app:
+    build: .
+    container_name: devhub-app
+    command: 'npm run start:dev'
+
+    ports:
+      - 3333:3333
+    volumes:
+      - .:/home/node/app
+    depends_on:
+      - db
   db:
     image: postgres
     restart: always
